@@ -12,6 +12,9 @@ public class SalaryRequest {
         return employee;
     }
 
+    public String getCountry(){
+        return employee.getCountry();
+    }
     public void setEmployee(Employee employee) {
         this.employee = employee;
     }

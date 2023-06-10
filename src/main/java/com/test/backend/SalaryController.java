@@ -8,16 +8,28 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SalaryController {
 
-    private final TaxCalculationService taxCalculationService;
+    private final indonesia ind;
+    private final vietnam vet;
 
-    public SalaryController(TaxCalculationService taxCalculationService) {
-        this.taxCalculationService = taxCalculationService;
+    public SalaryController(indonesia ind,vietnam vet) {
+        this.ind = ind;
+        this.vet = vet;
     }
 
     @PostMapping("/calculate-tax")
     public double calculateTax(@RequestBody SalaryRequest salaryRequest) {
         Employee employee = salaryRequest.getEmployee();
+        String  emp = salaryRequest.getCountry();
+        double negara=0;
         List<SalaryComponent> salaryComponents = salaryRequest.getKomponengaji();
-        return taxCalculationService.calculatePajak(employee, salaryComponents);
+        System.out.println(ind.calcTotalEarning(salaryComponents));
+        if (emp.equalsIgnoreCase("Indonesia")) {
+            negara= ind.calcPajak(employee, salaryComponents);
+        }
+        else if (emp.equalsIgnoreCase("Vietnam")) {
+            negara= vet.calcPajakV(employee, salaryComponents);
+        }
+        return negara;
+    
     }
 }
